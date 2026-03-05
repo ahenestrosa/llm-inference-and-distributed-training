@@ -1,0 +1,29 @@
+[project]
+name = "llm-inference-and-distributed-training"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "torch>=2.1",
+    "transformers>=4.36",
+    "accelerate",
+    "bitsandbytes",
+    "auto-gptq; sys_platform == 'linux'",
+    "autoawq",
+    "peft",
+    "datasets",
+    "wandb",
+    "matplotlib",
+    "pandas",
+]
+
+[tool.uv]
+environments = [
+    "sys_platform == 'darwin' and platform_machine == 'arm64'",
+    "sys_platform == 'linux'",
+]
+
+override-dependencies = [
+    "triton>=3.0; sys_platform == 'linux'",
+]
