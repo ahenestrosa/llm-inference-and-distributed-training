@@ -18,6 +18,12 @@ dependencies = [
     "pandas",
 ]
 
+[dependency-groups]
+dev = [
+    "pyright",
+    "ruff",
+]
+
 [tool.uv]
 environments = [
     "sys_platform == 'darwin' and platform_machine == 'arm64'",
