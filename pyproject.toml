@@ -33,3 +33,5 @@ environments = [
 override-dependencies = [
     "triton>=3.0; sys_platform == 'linux'",
 ]
+
+no-build-isolation-package = ["auto-gptq"]
