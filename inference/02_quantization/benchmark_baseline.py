@@ -28,8 +28,26 @@ MAX_NEW_TOKENS = 256
 NUM_RUNS = 5
 
 
+def get_gpu_environment() -> dict:
+    """Collect GPU hardware and software environment details."""
+    return {
+        "gpu_name": torch.cuda.get_device_name(0),
+        "gpu_count": torch.cuda.device_count(),
+        "gpu_total_memory_gb": torch.cuda.get_device_properties(0).total_memory / (1024**3),
+        "cuda_version": torch.version.cuda,
+        "torch_version": torch.__version__,
+    }
+
+
 def main() -> None:
     results: dict = {"model": MODEL_ID, "dtype": "bfloat16"}
+
+    # GPU environment
+    results["gpu_environment"] = get_gpu_environment()
+    print("GPU Environment:")
+    for k, v in results["gpu_environment"].items():
+        print(f"  {k}: {v}")
+    print()
 
     # Reset peak memory stats before loading
     torch.cuda.reset_peak_memory_stats()
@@ -67,14 +85,25 @@ def main() -> None:
     results["model_size"] = get_model_size_on_disk(model_path)
     print(f"Model size: {results['model_size']['total_size_gb']:.2f} GB")
 
-    # Save results
-    print("\n--- BF16 Baseline Results ---")
-    print(json.dumps(results, indent=2))
+    # Print summary
+    print("\n" + "=" * 50)
+    print("BF16 BASELINE RESULTS")
+    print("=" * 50)
+    print(f"  Model:            {MODEL_ID}")
+    print(f"  GPU:              {results['gpu_environment']['gpu_name']}")
+    print(f"  CUDA:             {results['gpu_environment']['cuda_version']}")
+    print(f"  PyTorch:          {results['gpu_environment']['torch_version']}")
+    print(f"  Model size:       {results['model_size']['total_size_gb']:.2f} GB")
+    print(f"  GPU mem allocated: {results['gpu_memory']['max_allocated_gb']:.2f} GB")
+    print(f"  Throughput:       {results['throughput']['median_tokens_per_sec']:.1f} tokens/sec")
+    print(f"  Perplexity:       {results['perplexity']:.2f}")
+    print("=" * 50)
 
+    # Save results
     output_path = "results_baseline_bf16.json"
     with open(output_path, "w") as f:
         json.dump(results, f, indent=2)
-    print(f"\nResults saved to {output_path}")
+    print(f"\nFull results saved to {output_path}")
 
 
 if __name__ == "__main__":
