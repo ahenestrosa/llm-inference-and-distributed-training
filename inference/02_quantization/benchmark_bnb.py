@@ -82,7 +82,7 @@ def benchmark_config(
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_ID,
         quantization_config=bnb_config,
-        device_map="auto",
+        device_map={"": 0},
     )
 
     result: dict = {"config": config_name}

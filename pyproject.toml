@@ -3,12 +3,12 @@ name = "llm-inference-and-distributed-training"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.11"
 dependencies = [
-    "torch>=2.1",
-    "transformers>=4.36",
+    "torch>=2.4,<2.5",
+    "transformers>=4.44,<4.45",
     "accelerate",
-    "bitsandbytes",
+    "bitsandbytes>=0.43,<0.44",
     "auto-gptq; sys_platform == 'linux'",
     "autoawq",
     "peft",
