@@ -1,0 +1,30 @@
+{
+  "model": "meta-llama/Llama-3.1-8B",
+  "dtype": "bfloat16",
+  "gpu_environment": {
+    "gpu_name": "NVIDIA A100-SXM4-80GB",
+    "gpu_count": 1,
+    "gpu_total_memory_gb": 79.249755859375,
+    "cuda_version": "12.4",
+    "torch_version": "2.4.1+cu124"
+  },
+  "gpu_memory": {
+    "max_allocated_gb": 14.957528114318848,
+    "max_reserved_gb": 14.958984375
+  },
+  "throughput": {
+    "median_tokens_per_sec": 33.21086015595491,
+    "all_runs_tokens_per_sec": [
+      33.21534120992189,
+      33.158796408008925,
+      33.21086015595491,
+      33.23873325037516,
+      33.20663524449257
+    ]
+  },
+  "perplexity": 5.920875072479248,
+  "model_size": {
+    "total_size_gb": 14.95755871385336,
+    "num_files": 4
+  }
+}
