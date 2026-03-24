@@ -10,6 +10,7 @@ Configurations:
 
 import gc
 import json
+from pathlib import Path
 
 import torch
 from datasets import load_dataset
@@ -150,7 +151,9 @@ def main() -> None:
     print(f"{'='*70}")
 
     # Save results
-    output_path = "results_bnb.json"
+    results_dir = Path(__file__).parent / "results"
+    results_dir.mkdir(exist_ok=True)
+    output_path = results_dir / "results_bnb.json"
     with open(output_path, "w") as f:
         json.dump(all_results, f, indent=2)
     print(f"\nFull results saved to {output_path}")

@@ -9,6 +9,7 @@ Measures:
 """
 
 import json
+from pathlib import Path
 
 import torch
 from datasets import load_dataset
@@ -100,7 +101,9 @@ def main() -> None:
     print("=" * 50)
 
     # Save results
-    output_path = "results_baseline_bf16.json"
+    results_dir = Path(__file__).parent / "results"
+    results_dir.mkdir(exist_ok=True)
+    output_path = results_dir / "results_baseline_bf16.json"
     with open(output_path, "w") as f:
         json.dump(results, f, indent=2)
     print(f"\nFull results saved to {output_path}")
