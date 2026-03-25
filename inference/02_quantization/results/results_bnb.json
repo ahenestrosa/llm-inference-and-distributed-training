@@ -1,0 +1,101 @@
+{
+  "model": "meta-llama/Llama-3.1-8B",
+  "method": "bitsandbytes",
+  "gpu_environment": {
+    "gpu_name": "NVIDIA A100-SXM4-80GB",
+    "gpu_count": 1,
+    "gpu_total_memory_gb": 79.249755859375,
+    "cuda_version": "12.4",
+    "torch_version": "2.4.1+cu124"
+  },
+  "configs": {
+    "int8": {
+      "config": "int8",
+      "gpu_memory": {
+        "max_allocated_gb": 8.626754760742188,
+        "max_reserved_gb": 8.666015625
+      },
+      "throughput": {
+        "median_tokens_per_sec": 7.025949008422543,
+        "all_runs_tokens_per_sec": [
+          7.01697550769937,
+          7.203939352289682,
+          7.025949008422543,
+          7.02041292361929,
+          7.056713189183165
+        ]
+      },
+      "perplexity": 6.00136137008667,
+      "model_size": {
+        "total_size_gb": 14.95755871385336,
+        "num_files": 4
+      }
+    },
+    "fp4": {
+      "config": "fp4",
+      "gpu_memory": {
+        "max_allocated_gb": 5.761940956115723,
+        "max_reserved_gb": 5.853515625
+      },
+      "throughput": {
+        "median_tokens_per_sec": 22.302189495469065,
+        "all_runs_tokens_per_sec": [
+          22.302189495469065,
+          22.32681769228481,
+          22.234899197265758,
+          22.33972980676057,
+          22.074109570029307
+        ]
+      },
+      "perplexity": 6.65739631652832,
+      "model_size": {
+        "total_size_gb": 14.95755871385336,
+        "num_files": 4
+      }
+    },
+    "nf4": {
+      "config": "nf4",
+      "gpu_memory": {
+        "max_allocated_gb": 5.761940956115723,
+        "max_reserved_gb": 5.853515625
+      },
+      "throughput": {
+        "median_tokens_per_sec": 22.2181392981585,
+        "all_runs_tokens_per_sec": [
+          22.216348431302812,
+          22.208861907158905,
+          22.235357360375342,
+          22.2181392981585,
+          22.22735006018129
+        ]
+      },
+      "perplexity": 6.306549072265625,
+      "model_size": {
+        "total_size_gb": 14.95755871385336,
+        "num_files": 4
+      }
+    },
+    "nf4_double_quant": {
+      "config": "nf4_double_quant",
+      "gpu_memory": {
+        "max_allocated_gb": 5.43294620513916,
+        "max_reserved_gb": 5.5
+      },
+      "throughput": {
+        "median_tokens_per_sec": 17.940870860793414,
+        "all_runs_tokens_per_sec": [
+          17.73787242996462,
+          17.940870860793414,
+          17.97068311732663,
+          17.862201379963746,
+          18.02463590000781
+        ]
+      },
+      "perplexity": 6.3071465492248535,
+      "model_size": {
+        "total_size_gb": 14.95755871385336,
+        "num_files": 4
+      }
+    }
+  }
+}
