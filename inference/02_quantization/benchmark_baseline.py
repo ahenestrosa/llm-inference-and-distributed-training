@@ -56,6 +56,7 @@ def main() -> None:
     # Load model and tokenizer
     print(f"Loading {MODEL_ID} in BF16...")
     tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
+    tokenizer.pad_token_id = tokenizer.eos_token_id
     model = AutoModelForCausalLM.from_pretrained(
         MODEL_ID,
         torch_dtype=torch.bfloat16,

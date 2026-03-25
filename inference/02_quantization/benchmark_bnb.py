@@ -126,6 +126,7 @@ def main() -> None:
 
     # Shared resources
     tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
+    tokenizer.pad_token_id = tokenizer.eos_token_id
     dataset = load_dataset("wikitext", "wikitext-2-raw-v1", split="test")
     model_path = snapshot_download(MODEL_ID, local_files_only=True)
 
