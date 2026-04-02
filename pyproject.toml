@@ -16,6 +16,7 @@ dependencies = [
     "wandb",
     "matplotlib",
     "pandas",
+    "optimum>=2.1.0",
 ]
 
 [dependency-groups]
