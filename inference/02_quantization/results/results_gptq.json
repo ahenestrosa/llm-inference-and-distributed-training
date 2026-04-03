@@ -1,0 +1,31 @@
+{
+  "model": "ModelCloud/Meta-Llama-3.1-8B-gptq-4bit",
+  "method": "gptq",
+  "config": "4bit_g128_desc_act",
+  "gpu_environment": {
+    "gpu_name": "NVIDIA A100-SXM4-80GB",
+    "gpu_count": 1,
+    "gpu_total_memory_gb": 79.249755859375,
+    "cuda_version": "12.8",
+    "torch_version": "2.10.0+cu128"
+  },
+  "gpu_memory": {
+    "max_allocated_gb": 5.440681457519531,
+    "max_reserved_gb": 5.44140625
+  },
+  "throughput": {
+    "median_tokens_per_sec": 19.137193659131462,
+    "all_runs_tokens_per_sec": [
+      19.356884876629508,
+      19.044037323295136,
+      19.137193659131462,
+      19.03083117688735,
+      19.91444155518824
+    ]
+  },
+  "perplexity": 6.306185722351074,
+  "model_size": {
+    "total_size_gb": 5.339219860732555,
+    "num_files": 1
+  }
+}

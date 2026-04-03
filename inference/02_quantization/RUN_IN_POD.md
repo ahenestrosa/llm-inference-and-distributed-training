@@ -26,7 +26,8 @@ cat >> ~/.bashrc << 'EOF'
 export HOME=/workspace
 export UV_CACHE_DIR=/workspace/.cache/uv                                                                                        
 export HF_HOME=/workspace/.cache/huggingface                                                                                  
-EOF                                                                                                                             
+EOF
+                                                                                                                      
 source ~/.bashrc     
 ```
 

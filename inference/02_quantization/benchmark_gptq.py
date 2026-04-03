@@ -5,8 +5,14 @@ Uses a pre-quantized GPTQ model from Hugging Face.
 The quantization (Hessian computation + weight rounding) was done offline;
 this script loads the result and benchmarks it.
 
+Loads the model via gptqmodel which provides optimized GPTQ kernels
+(Triton v2) and handles format conversion automatically.
+
 Configuration:
-    - 4-bit, group_size=128, desc_act=True
+    - 4-bit, group_size=128, desc_act=True, sym=True
+
+Requirements:
+    uv pip install gptqmodel
 """
 
 import gc
@@ -15,8 +21,8 @@ from pathlib import Path
 
 import torch
 from datasets import load_dataset
-from huggingface_hub import snapshot_download
 from gptqmodel import GPTQModel
+from huggingface_hub import snapshot_download
 from transformers import AutoTokenizer
 
 from benchmark_utils import (
@@ -28,7 +34,6 @@ from benchmark_utils import (
 
 # Pre-quantized GPTQ model (4-bit, group_size=128, desc_act=True)
 MODEL_ID = "ModelCloud/Meta-Llama-3.1-8B-gptq-4bit"
-MODEL_NAME = "meta-llama/Llama-3.1-8B (GPTQ 4-bit)"
 PROMPT = "Explain the theory of general relativity in simple terms."
 MAX_NEW_TOKENS = 256
 NUM_RUNS = 5
@@ -64,7 +69,7 @@ def main() -> None:
     torch.cuda.empty_cache()
     gc.collect()
 
-    # Load pre-quantized model via gptqmodel (bypasses optimum/auto-gptq)
+    # Load pre-quantized GPTQ model via gptqmodel (Triton v2 kernel)
     print(f"Loading {MODEL_ID}...")
     tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
     tokenizer.pad_token_id = tokenizer.eos_token_id
