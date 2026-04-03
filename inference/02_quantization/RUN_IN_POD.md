@@ -36,9 +36,13 @@ cd /workspace
 git clone https://github.com/ahenestrosa/llm-inference-and-distributed-training.git
 cd llm-inference-and-distributed-training
 uv sync
+```
 
+### Install and login to HF
+```bash
 # HF login (Llama 3.1 is gated — accept license at https://huggingface.co/meta-llama/Llama-3.1-8B)
-uv run huggingface-cli login
+curl -LsSf https://hf.co/cli/install.sh | bash
+hf auth login
 ```
 
 ## Run benchmarks

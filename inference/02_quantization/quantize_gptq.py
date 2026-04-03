@@ -4,8 +4,10 @@ GPTQ quantization script: Quantize Llama 3.1 8B with different configs.
 Produces a 4-bit quantized model with group_size=128 (standard).
 Takes ~30-60 minutes on an A100 (Hessian computation).
 
-Uses transformers' built-in GPTQConfig + optimum backend instead of
-auto-gptq directly (which has build issues with modern Python).
+
+Requires to install in auto-gptq in isolation:
+
+uv pip install auto-gptq --no-build-isolation 
 """
 
 import time
