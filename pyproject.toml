@@ -9,7 +9,6 @@ dependencies = [
     "transformers>=4.48",
     "accelerate>=1.2",
     "bitsandbytes>=0.45",
-    "auto-gptq; sys_platform == 'linux'",
     "autoawq",
     "peft",
     "datasets",
@@ -35,4 +34,3 @@ override-dependencies = [
     "triton>=3.0; sys_platform == 'linux'",
 ]
 
-no-build-isolation-package = ["auto-gptq"]

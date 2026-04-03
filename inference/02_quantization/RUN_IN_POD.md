@@ -4,16 +4,34 @@ Tested on: RunPod PyTorch 2.4.0 template, NVIDIA A100 SXM 80GB (50GB+ volume sto
 
 ## Setup
 
+### Set /workspace as hoem
+
+```bash
+echo 'export HOME=/workspace' >> ~/.bashrc                                                                                      
+source ~/.bashrc                                                                                                             
+cd ~         
+```
+### UV install
+
 ```bash
 # Install uv
 curl -LsSf https://astral.sh/uv/install.sh | sh
 source "$HOME/.local/bin/env"
+```
 
-# Point caches to persistent storage
-export UV_CACHE_DIR=/workspace/.cache/uv
-export HF_HOME=/workspace/.cache/huggingface
+### Set directories for volume storage (run 1 by 1 the commands)
 
-# Clone and install
+```bash
+cat >> ~/.bashrc << 'EOF'                                                                                                       
+export HOME=/workspace
+export UV_CACHE_DIR=/workspace/.cache/uv                                                                                        
+export HF_HOME=/workspace/.cache/huggingface                                                                                  
+EOF                                                                                                                             
+source ~/.bashrc     
+```
+
+### Install repository
+```bash
 cd /workspace
 git clone https://github.com/ahenestrosa/llm-inference-and-distributed-training.git
 cd llm-inference-and-distributed-training
