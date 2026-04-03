@@ -26,7 +26,7 @@ from benchmark_utils import (
 )
 
 # Pre-quantized GPTQ model (4-bit, group_size=128, desc_act=True)
-MODEL_ID = "TechxGenus/Meta-Llama-3.1-8B-GPTQ"
+MODEL_ID = "ModelCloud/Meta-Llama-3.1-8B-gptq-4bit"
 MODEL_NAME = "meta-llama/Llama-3.1-8B (GPTQ 4-bit)"
 PROMPT = "Explain the theory of general relativity in simple terms."
 MAX_NEW_TOKENS = 256
