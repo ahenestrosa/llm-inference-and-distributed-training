@@ -16,7 +16,8 @@ from pathlib import Path
 import torch
 from datasets import load_dataset
 from huggingface_hub import snapshot_download
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from gptqmodel import GPTQModel
+from transformers import AutoTokenizer
 
 from benchmark_utils import (
     get_gpu_memory_usage,
@@ -63,14 +64,11 @@ def main() -> None:
     torch.cuda.empty_cache()
     gc.collect()
 
-    # Load pre-quantized model
+    # Load pre-quantized model via gptqmodel (bypasses optimum/auto-gptq)
     print(f"Loading {MODEL_ID}...")
     tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
     tokenizer.pad_token_id = tokenizer.eos_token_id
-    model = AutoModelForCausalLM.from_pretrained(
-        MODEL_ID,
-        device_map="auto",
-    )
+    model = GPTQModel.load(MODEL_ID, device="cuda:0")
 
     # 1. GPU memory
     results["gpu_memory"] = get_gpu_memory_usage()
