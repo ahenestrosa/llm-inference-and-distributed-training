@@ -1,0 +1,31 @@
+{
+  "model": "UCLA-EMC/Meta-Llama-3.1-8B-AWQ-INT4",
+  "method": "awq",
+  "config": "4bit_g128",
+  "gpu_environment": {
+    "gpu_name": "NVIDIA A100-SXM4-80GB",
+    "gpu_count": 1,
+    "gpu_total_memory_gb": 79.249755859375,
+    "cuda_version": "12.8",
+    "torch_version": "2.10.0+cu128"
+  },
+  "gpu_memory": {
+    "max_allocated_gb": 5.334481239318848,
+    "max_reserved_gb": 5.3359375
+  },
+  "throughput": {
+    "median_tokens_per_sec": 13.96543617599491,
+    "all_runs_tokens_per_sec": [
+      13.99715858268835,
+      13.961967844264542,
+      13.96543617599491,
+      13.966178465367308,
+      13.962876204090533
+    ]
+  },
+  "perplexity": 6.309511661529541,
+  "model_size": {
+    "total_size_gb": 5.334558501839638,
+    "num_files": 2
+  }
+}
