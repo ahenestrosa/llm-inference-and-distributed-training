@@ -10,6 +10,7 @@ Each topic lives in its own folder with a top-level map-of-content (MOC) note th
 ### Attention
 
 - [Flash Attention](./attention/flash-attention/flash-attention.md) — IO-aware exact attention (Dao et al., 2022). Tiling + online softmax to keep the N×N matrix out of HBM.
+- [Flash Attention 2](./attention/flash-attention-2/flash-attention-2.md) — Faster attention via better parallelism and work partitioning (Dao, 2023). Loop swap, sequence-length parallelism, split-Q warp partitioning.
 
 ## How to read these
 
