@@ -34,6 +34,7 @@ import gc
 import json
 import time
 from dataclasses import asdict, dataclass, field
+from enum import StrEnum
 from pathlib import Path
 from statistics import median
 
@@ -41,9 +42,17 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, PreTrainedModel
 from transformers.tokenization_utils_base import PreTrainedTokenizerBase
 
+
+class AttentionImplementation(StrEnum):
+    """Values match transformers' `attn_implementation` keyword exactly."""
+
+    EAGER = "eager"
+    SDPA = "sdpa"
+    FLASH_ATTENTION_2 = "flash_attention_2"
+
+
 MODEL_ID = "meta-llama/Llama-3.1-8B"
 SEQUENCE_LENGTHS: list[int] = [512, 1024, 2048, 4096, 8192, 16384]
-ATTENTION_IMPLEMENTATIONS: list[str] = ["eager", "sdpa", "flash_attention_2"]
 GENERATE_NEW_TOKENS = 64
 NUM_RUNS = 3
 WARMUP_RUNS = 1
@@ -66,6 +75,13 @@ class MemoryStats:
 
     @classmethod
     def snapshot(cls, device: int = 0) -> "MemoryStats":
+        """Read PyTorch's peak-memory counters.
+
+        These are cumulative high-water marks since the last
+        `torch.cuda.reset_peak_memory_stats()` — call that immediately before
+        the operation you want to measure, otherwise the reading also covers
+        whatever was allocated earlier in the process.
+        """
         bytes_to_gb = 1 / (1024**3)
         return cls(
             max_allocated_gb=torch.cuda.max_memory_allocated(device) * bytes_to_gb,
@@ -83,6 +99,7 @@ class PrefillMeasurement:
 
     @property
     def ok(self) -> bool:
+        """True iff the measurement ran to completion (no OOM or other failure)."""
         return self.error is None
 
 
@@ -97,12 +114,13 @@ class GenerationMeasurement:
 
     @property
     def ok(self) -> bool:
+        """True iff the measurement ran to completion (no OOM or other failure)."""
         return self.error is None
 
 
 @dataclass
 class ImplementationResults:
-    implementation: str
+    attn_implementation: AttentionImplementation
     available: bool
     load_memory: MemoryStats | None
     prefill: list[PrefillMeasurement] = field(default_factory=list)
@@ -119,10 +137,11 @@ class BenchmarkResults:
     generate_new_tokens: int
     num_runs: int
     gpu_environment: GpuEnvironment
-    implementations: list[ImplementationResults] = field(default_factory=list)
+    implementation_results: list[ImplementationResults] = field(default_factory=list)
 
 
 def get_gpu_environment() -> GpuEnvironment:
+    """Snapshot the GPU hardware and the CUDA/PyTorch versions powering it."""
     return GpuEnvironment(
         gpu_name=torch.cuda.get_device_name(0),
         gpu_count=torch.cuda.device_count(),
@@ -146,11 +165,19 @@ def make_random_input(
 
 
 def free_cuda_memory() -> None:
+    """Run Python GC then return any cached blocks to the CUDA allocator.
+
+    Needed between implementations so the next model loads against a clean
+    slate; PyTorch's caching allocator otherwise holds onto freed blocks and
+    can inflate the next backend's apparent peak.
+    """
     gc.collect()
     torch.cuda.empty_cache()
 
 
-def load_model(implementation: str) -> tuple[PreTrainedModel | None, MemoryStats | None, str | None]:
+def load_model(
+    attn_impl: AttentionImplementation,
+) -> tuple[PreTrainedModel | None, MemoryStats | None, str | None]:
     """Load Llama 3.1 8B in BF16 with the requested attention backend.
 
     Returns (model, load_memory, error). On failure (e.g., flash-attn not
@@ -165,7 +192,7 @@ def load_model(implementation: str) -> tuple[PreTrainedModel | None, MemoryStats
             MODEL_ID,
             torch_dtype=torch.bfloat16,
             device_map="auto",
-            attn_implementation=implementation,
+            attn_implementation=attn_impl,
         )
     except (ImportError, ValueError, RuntimeError) as e:
         return None, None, f"{type(e).__name__}: {e}"
@@ -274,17 +301,26 @@ def measure_generation(
 
 
 def benchmark_implementation(
-    implementation: str, tokenizer: PreTrainedTokenizerBase
+    attn_impl: AttentionImplementation,
+    tokenizer: PreTrainedTokenizerBase,
 ) -> ImplementationResults:
+    """Run the full prefill + generation sweep for one attention backend.
+
+    Loads the model once, walks `SEQUENCE_LENGTHS` taking two measurements
+    per step, then frees the model so the next backend starts from a clean
+    GPU. A load failure (e.g., missing flash-attn) returns an
+    ImplementationResults with `available=False` instead of raising, so the
+    overall sweep continues.
+    """
     print(f"\n{'=' * 70}")
-    print(f"Benchmarking attn_implementation = {implementation!r}")
+    print(f"Benchmarking attn_implementation = {attn_impl.value!r}")
     print(f"{'=' * 70}")
 
-    model, load_memory, load_error = load_model(implementation)
+    model, load_memory, load_error = load_model(attn_impl)
     if model is None:
         print(f"  Skipping: {load_error}")
         return ImplementationResults(
-            implementation=implementation,
+            attn_implementation=attn_impl,
             available=False,
             load_memory=None,
             load_error=load_error,
@@ -295,7 +331,7 @@ def benchmark_implementation(
 
     device = next(model.parameters()).device
     result = ImplementationResults(
-        implementation=implementation,
+        attn_implementation=attn_impl,
         available=True,
         load_memory=load_memory,
     )
@@ -330,17 +366,24 @@ def benchmark_implementation(
 
 
 def print_summary(results: BenchmarkResults) -> None:
+    """Render a (seq_len x backend) comparison table to stdout.
+
+    Each cell shows prefill latency, decode tokens/sec, and peak GPU memory;
+    failed measurements render as `OOM` so the table stays aligned. Memory
+    is taken from the generation run when available (it includes the prefill
+    KV cache plus all decode steps), otherwise from the prefill run.
+    """
     print(f"\n{'=' * 90}")
     print("ATTENTION IMPLEMENTATION COMPARISON")
     print(f"{'=' * 90}")
 
-    impls = [r for r in results.implementations if r.available]
+    impls = [r for r in results.implementation_results if r.available]
     if not impls:
         print("  No implementations ran successfully.")
         return
 
     header = f"  {'seq_len':>8}  " + "  ".join(
-        f"{r.implementation:^28}" for r in impls
+        f"{r.attn_implementation:^28}" for r in impls
     )
     print(header)
     sub = f"  {'':>8}  " + "  ".join(
@@ -376,6 +419,7 @@ def print_summary(results: BenchmarkResults) -> None:
 
 
 def save_results(results: BenchmarkResults) -> Path:
+    """Serialize the full results tree as JSON next to this script."""
     output_path = Path(__file__).parent / "results_attention.json"
     with open(output_path, "w") as f:
         json.dump(asdict(results), f, indent=2)
@@ -383,6 +427,7 @@ def save_results(results: BenchmarkResults) -> Path:
 
 
 def main() -> None:
+    """Sweep every `AttentionImplementation`, print the table, dump JSON."""
     if not torch.cuda.is_available():
         raise RuntimeError("CUDA is required for this benchmark.")
 
@@ -405,8 +450,8 @@ def main() -> None:
         gpu_environment=gpu_env,
     )
 
-    for implementation in ATTENTION_IMPLEMENTATIONS:
-        results.implementations.append(
+    for implementation in AttentionImplementation:
+        results.implementation_results.append(
             benchmark_implementation(implementation, tokenizer)
         )
 
