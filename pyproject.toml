@@ -16,6 +16,7 @@ dependencies = [
     "matplotlib",
     "pandas",
     "optimum>=2.1.0",
+    "flash-attn>=2.6; sys_platform == 'linux'",
 ]
 
 [dependency-groups]
@@ -29,6 +30,9 @@ environments = [
     "sys_platform == 'darwin' and platform_machine == 'arm64'",
     "sys_platform == 'linux'",
 ]
+
+# flash-attn's setup.py imports torch at build time.
+no-build-isolation-package = ["flash-attn"]
 
 override-dependencies = [
     "triton>=3.0; sys_platform == 'linux'",
