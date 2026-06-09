@@ -1,0 +1,571 @@
+{
+  "model": "meta-llama/Llama-3.1-8B",
+  "dtype": "bfloat16",
+  "batch_size": 1,
+  "sequence_lengths": [
+    512,
+    1024,
+    2048,
+    4096,
+    8192,
+    16384
+  ],
+  "generate_new_tokens": 64,
+  "num_runs": 3,
+  "gpu_environment": {
+    "gpu_name": "NVIDIA A100-SXM4-80GB",
+    "gpu_count": 1,
+    "gpu_total_memory_gb": 79.249755859375,
+    "cuda_version": "12.8",
+    "torch_version": "2.8.0+cu128"
+  },
+  "implementation_results": [
+    {
+      "attn_implementation": "eager",
+      "available": true,
+      "load_memory": {
+        "max_allocated_gb": 14.957528114318848,
+        "max_reserved_gb": 14.958984375
+      },
+      "prefill": [
+        {
+          "seq_len": 512,
+          "median_time_sec": 0.06198846735060215,
+          "all_times_sec": [
+            0.06773321144282818,
+            0.06198846735060215,
+            0.05663540028035641
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.154919624328613,
+            "max_reserved_gb": 15.28125
+          },
+          "error": null
+        },
+        {
+          "seq_len": 1024,
+          "median_time_sec": 0.11606676504015923,
+          "all_times_sec": [
+            0.11606676504015923,
+            0.11619317531585693,
+            0.1160606425255537
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.45229434967041,
+            "max_reserved_gb": 15.96484375
+          },
+          "error": null
+        },
+        {
+          "seq_len": 2048,
+          "median_time_sec": 0.265880461782217,
+          "all_times_sec": [
+            0.2642154432833195,
+            0.265880461782217,
+            0.26759641058743
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 16.568032264709473,
+            "max_reserved_gb": 17.46484375
+          },
+          "error": null
+        },
+        {
+          "seq_len": 4096,
+          "median_time_sec": 0.7459566071629524,
+          "all_times_sec": [
+            0.7459566071629524,
+            0.7458218112587929,
+            0.7473743390291929
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 20.686226844787598,
+            "max_reserved_gb": 23.46484375
+          },
+          "error": null
+        },
+        {
+          "seq_len": 8192,
+          "median_time_sec": 2.4162322748452425,
+          "all_times_sec": [
+            2.4128600768744946,
+            2.4162322748452425,
+            2.4171368423849344
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 36.46949100494385,
+            "max_reserved_gb": 47.46484375
+          },
+          "error": null
+        },
+        {
+          "seq_len": 16384,
+          "median_time_sec": NaN,
+          "all_times_sec": [],
+          "peak_memory": null,
+          "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 32.00 GiB. GPU 0 has a total capacity of 79.25 GiB of which 14.53 GiB is free. Including non-PyTorch memory, this process has 64.71 GiB memory in use. Of the allocated memory 64.16 GiB is allocated by PyTorch, and 53.12 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+        }
+      ],
+      "generation": [
+        {
+          "seq_len": 512,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 35.49411432496866,
+          "all_runs_tokens_per_sec": [
+            35.30715662730302,
+            35.49411432496866,
+            35.690378317192994
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.130279064178467,
+            "max_reserved_gb": 15.28125
+          },
+          "error": null
+        },
+        {
+          "seq_len": 1024,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 34.49045855103631,
+          "all_runs_tokens_per_sec": [
+            34.281196478779094,
+            34.59540583588082,
+            34.49045855103631
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.452319622039795,
+            "max_reserved_gb": 15.96484375
+          },
+          "error": null
+        },
+        {
+          "seq_len": 2048,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 31.936010811303102,
+          "all_runs_tokens_per_sec": [
+            31.936010811303102,
+            31.849473156667532,
+            32.01711278881956
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 16.56808042526245,
+            "max_reserved_gb": 17.46484375
+          },
+          "error": null
+        },
+        {
+          "seq_len": 4096,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 25.905051797696267,
+          "all_runs_tokens_per_sec": [
+            25.905051797696267,
+            25.908428969121783,
+            25.88078169371666
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 20.686320781707764,
+            "max_reserved_gb": 23.46484375
+          },
+          "error": null
+        },
+        {
+          "seq_len": 8192,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 14.907812077288341,
+          "all_runs_tokens_per_sec": [
+            14.907812077288341,
+            14.915019731403913,
+            14.903819963072616
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 36.46967649459839,
+            "max_reserved_gb": 47.46484375
+          },
+          "error": null
+        },
+        {
+          "seq_len": 16384,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": NaN,
+          "all_runs_tokens_per_sec": [],
+          "peak_memory": null,
+          "error": "OutOfMemoryError: CUDA out of memory. Tried to allocate 32.00 GiB. GPU 0 has a total capacity of 79.25 GiB of which 30.53 GiB is free. Including non-PyTorch memory, this process has 48.71 GiB memory in use. Of the allocated memory 32.16 GiB is allocated by PyTorch, and 16.05 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)"
+        }
+      ],
+      "load_error": null
+    },
+    {
+      "attn_implementation": "sdpa",
+      "available": true,
+      "load_memory": {
+        "max_allocated_gb": 14.965462684631348,
+        "max_reserved_gb": 14.998046875
+      },
+      "prefill": [
+        {
+          "seq_len": 512,
+          "median_time_sec": 0.05044092237949371,
+          "all_times_sec": [
+            0.05001445673406124,
+            0.05058402754366398,
+            0.05044092237949371
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.154919624328613,
+            "max_reserved_gb": 15.2421875
+          },
+          "error": null
+        },
+        {
+          "seq_len": 1024,
+          "median_time_sec": 0.09163033217191696,
+          "all_times_sec": [
+            0.09148751199245453,
+            0.09171488136053085,
+            0.09163033217191696
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.342911720275879,
+            "max_reserved_gb": 15.54296875
+          },
+          "error": null
+        },
+        {
+          "seq_len": 2048,
+          "median_time_sec": 0.17134969867765903,
+          "all_times_sec": [
+            0.17071983218193054,
+            0.17148162797093391,
+            0.17134969867765903
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.72133731842041,
+            "max_reserved_gb": 16.033203125
+          },
+          "error": null
+        },
+        {
+          "seq_len": 4096,
+          "median_time_sec": 0.3386248033493757,
+          "all_times_sec": [
+            0.3386248033493757,
+            0.3418423403054476,
+            0.33708602376282215
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 16.475258827209473,
+            "max_reserved_gb": 17.12109375
+          },
+          "error": null
+        },
+        {
+          "seq_len": 8192,
+          "median_time_sec": 0.7123063392937183,
+          "all_times_sec": [
+            0.7118869312107563,
+            0.7129915896803141,
+            0.7123063392937183
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 17.985054969787598,
+            "max_reserved_gb": 19.296875
+          },
+          "error": null
+        },
+        {
+          "seq_len": 16384,
+          "median_time_sec": 1.574603958055377,
+          "all_times_sec": [
+            1.571777755394578,
+            1.574603958055377,
+            1.5750506166368723
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 21.004647254943848,
+            "max_reserved_gb": 23.2109375
+          },
+          "error": null
+        }
+      ],
+      "generation": [
+        {
+          "seq_len": 512,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 42.54611128788849,
+          "all_runs_tokens_per_sec": [
+            42.46531658468884,
+            42.54611128788849,
+            42.66924725351015
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.084868907928467,
+            "max_reserved_gb": 15.2421875
+          },
+          "error": null
+        },
+        {
+          "seq_len": 1024,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 41.48227667521845,
+          "all_runs_tokens_per_sec": [
+            41.3321871559503,
+            41.53486051860256,
+            41.48227667521845
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.204272747039795,
+            "max_reserved_gb": 15.54296875
+          },
+          "error": null
+        },
+        {
+          "seq_len": 2048,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 14.370295020287822,
+          "all_runs_tokens_per_sec": [
+            14.370295020287822,
+            14.375773701441034,
+            14.320938714904997
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.443080425262451,
+            "max_reserved_gb": 16.033203125
+          },
+          "error": null
+        },
+        {
+          "seq_len": 4096,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 35.77975624582626,
+          "all_runs_tokens_per_sec": [
+            35.82158822467622,
+            35.72202527198456,
+            35.77975624582626
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.920695781707764,
+            "max_reserved_gb": 17.12109375
+          },
+          "error": null
+        },
+        {
+          "seq_len": 8192,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 29.936418151545876,
+          "all_runs_tokens_per_sec": [
+            29.936418151545876,
+            29.934831009017,
+            29.945493373129512
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 16.87592649459839,
+            "max_reserved_gb": 19.296875
+          },
+          "error": null
+        },
+        {
+          "seq_len": 16384,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 21.653594726831084,
+          "all_runs_tokens_per_sec": [
+            21.65446156501759,
+            21.653594726831084,
+            21.639062097992987
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 18.78638792037964,
+            "max_reserved_gb": 23.2109375
+          },
+          "error": null
+        }
+      ],
+      "load_error": null
+    },
+    {
+      "attn_implementation": "flash_attention_2",
+      "available": true,
+      "load_memory": {
+        "max_allocated_gb": 14.965462684631348,
+        "max_reserved_gb": 14.998046875
+      },
+      "prefill": [
+        {
+          "seq_len": 512,
+          "median_time_sec": 0.053790099918842316,
+          "all_times_sec": [
+            0.05399001017212868,
+            0.053787874057888985,
+            0.053790099918842316
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.154919624328613,
+            "max_reserved_gb": 15.2421875
+          },
+          "error": null
+        },
+        {
+          "seq_len": 1024,
+          "median_time_sec": 0.0936967246234417,
+          "all_times_sec": [
+            0.09606452286243439,
+            0.09352452494204044,
+            0.0936967246234417
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.342911720275879,
+            "max_reserved_gb": 15.54296875
+          },
+          "error": null
+        },
+        {
+          "seq_len": 2048,
+          "median_time_sec": 0.17284492403268814,
+          "all_times_sec": [
+            0.17239971086382866,
+            0.17504898831248283,
+            0.17284492403268814
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.72133731842041,
+            "max_reserved_gb": 16.033203125
+          },
+          "error": null
+        },
+        {
+          "seq_len": 4096,
+          "median_time_sec": 0.3437166679650545,
+          "all_times_sec": [
+            0.33954972960054874,
+            0.3437166679650545,
+            0.3440854549407959
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 16.475258827209473,
+            "max_reserved_gb": 17.12109375
+          },
+          "error": null
+        },
+        {
+          "seq_len": 8192,
+          "median_time_sec": 0.7108123637735844,
+          "all_times_sec": [
+            0.7105121593922377,
+            0.7108123637735844,
+            0.7128304112702608
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 17.985054969787598,
+            "max_reserved_gb": 19.296875
+          },
+          "error": null
+        },
+        {
+          "seq_len": 16384,
+          "median_time_sec": 1.5594613049179316,
+          "all_times_sec": [
+            1.558908011764288,
+            1.5594613049179316,
+            1.561110120266676
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 21.004647254943848,
+            "max_reserved_gb": 23.2109375
+          },
+          "error": null
+        }
+      ],
+      "generation": [
+        {
+          "seq_len": 512,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 33.90641211321441,
+          "all_runs_tokens_per_sec": [
+            33.915782504718145,
+            33.86447586071762,
+            33.90641211321441
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.084868907928467,
+            "max_reserved_gb": 15.2421875
+          },
+          "error": null
+        },
+        {
+          "seq_len": 1024,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 33.073647810431126,
+          "all_runs_tokens_per_sec": [
+            33.06131509181076,
+            33.202687495078564,
+            33.073647810431126
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.204272747039795,
+            "max_reserved_gb": 15.54296875
+          },
+          "error": null
+        },
+        {
+          "seq_len": 2048,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 31.891256181021042,
+          "all_runs_tokens_per_sec": [
+            31.916877977948204,
+            31.891256181021042,
+            31.882509970229034
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.443080425262451,
+            "max_reserved_gb": 16.033203125
+          },
+          "error": null
+        },
+        {
+          "seq_len": 4096,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 29.492950575781713,
+          "all_runs_tokens_per_sec": [
+            29.492950575781713,
+            29.53870103680375,
+            29.42954508676483
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 15.920695781707764,
+            "max_reserved_gb": 17.12109375
+          },
+          "error": null
+        },
+        {
+          "seq_len": 8192,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 25.32054729989749,
+          "all_runs_tokens_per_sec": [
+            25.32054729989749,
+            25.285685489228722,
+            25.376742241743308
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 16.87592649459839,
+            "max_reserved_gb": 19.296875
+          },
+          "error": null
+        },
+        {
+          "seq_len": 16384,
+          "new_tokens_target": 64,
+          "median_tokens_per_sec": 18.863550948621658,
+          "all_runs_tokens_per_sec": [
+            18.876174490453018,
+            18.863550948621658,
+            18.857896111164646
+          ],
+          "peak_memory": {
+            "max_allocated_gb": 18.78638792037964,
+            "max_reserved_gb": 23.2109375
+          },
+          "error": null
+        }
+      ],
+      "load_error": null
+    }
+  ]
+}
