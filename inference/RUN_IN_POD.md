@@ -39,6 +39,8 @@ cd llm-inference-and-distributed-training
 uv sync
 ```
 
+> If `uv sync` hangs on `Preparing packages...` with progress bars frozen, see [RUN_IN_POD_OFFLINE.md](./RUN_IN_POD_OFFLINE.md) — there's a known interaction between uv's concurrent downloader and some pods that requires an offline-install workaround.
+
 ### Install and login to HF
 ```bash
 # HF login (Llama 3.1 is gated — accept license at https://huggingface.co/meta-llama/Llama-3.1-8B)
